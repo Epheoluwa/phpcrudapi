@@ -1,7 +1,7 @@
 <?php
 // Headers 
 header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
@@ -17,21 +17,29 @@ include_once '../model/Insertproduct.php';
 
     // var_dump($_POST);
     // exit;
+    // $value =file_get_contents("php://input");
+    // echo($value);
+    // exit;
     $value =json_decode(file_get_contents("php://input"));
+
     // Get raw posted data
     $name = $value->name;
     $sku = $value->sku;
     $price = $value->price;
-    $product_type = $value->product_type;
+    $product_type = $value->prod_type;
     $size = $value->size;
     // Create post
+    
     $result = $post->allProducts($name, $sku, $price, $product_type, $size);
     if($result) {
         echo json_encode(
-        array('message' => 'Product Created')
+        array('status' => true)
         );
-    } else {
+    }else {
+        
         echo json_encode(
-        array('message' => 'Product Not Created')
+        array('status' => false)
         );
+
+        // http_response_code(500);
     }

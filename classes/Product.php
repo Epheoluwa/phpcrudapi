@@ -73,13 +73,25 @@ abstract class Product extends Database {
       $stmt = $this->conn->prepare($query);
 
       // Execute query
-      if($stmt->execute()) {
+      try{
+        $stmt->execute();
         return true;
       }
-      // Print error if something goes wrong
-      printf("Error: %s.\n", $stmt->error);
 
-      return false;
+      catch(Exception $e){
+            return false;
+      }
+   
+      // if($stmt->execute()) {
+      //   return true;
+      // }else{
+
+      //     throw new Exception("Something wentwrong");
+      //      // Print error if something goes wrong
+      //       printf("Error: %s.\n", $stmt->error);
+      //       return false;
+      // }
+   
     }  
     
     
