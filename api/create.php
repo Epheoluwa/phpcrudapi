@@ -21,16 +21,26 @@ include_once '../model/Insertproduct.php';
     // echo($value);
     // exit;
     $value =json_decode(file_get_contents("php://input"));
-
+  
     // Get raw posted data
     $name = $value->name;
     $sku = $value->sku;
     $price = $value->price;
     $product_type = $value->prod_type;
     $size = $value->size;
-    // Create post
+    $weight = $value->weight;
+    $height = $value->height;
+    $length = $value->length;
+    $width = $value->width;
+
     
-    $result = $post->allProducts($name, $sku, $price, $product_type, $size);
+    // isset($size) ? $result = $post->allProducts($name, $sku, $price, $product_type, $size): $result = "other" ;
+
+    // Create post ternary operator used to check product difference
+  $result =  (!empty($size)) ? $result = $post->allProducts($name, $sku, $price, $product_type, $size) : 
+                              ((!empty($weight)) ? $result = $post->allProductsbooks($name, $sku, $price, $product_type, $weight)  : 
+                              $result = $post->allProductsfurniture($name, $sku, $price, $product_type, $height,$width,$length));
+  echo $result ;
     if($result) {
         echo json_encode(
         array('status' => true)
@@ -41,5 +51,5 @@ include_once '../model/Insertproduct.php';
         array('status' => false)
         );
 
-        // http_response_code(500);
+        // http_response_code(401);
     }

@@ -93,6 +93,42 @@ abstract class Product extends Database {
       // }
    
     }  
+    public function createbook($name, $sku, $price, $product_type, $weight) {
+      // Create query
+      $query = "INSERT INTO $this->table(name,sku,price,product_type,weight) VALUE( '$name', '$sku','$price', '$product_type','$weight')";
+
+      // Prepare statement
+      $stmt = $this->conn->prepare($query);
+
+      // Execute query
+      try{
+        $stmt->execute();
+        return true;
+      }
+
+      catch(Exception $e){
+            return false;
+      }
+       
+    }  
+    public function createfurniture($name, $sku, $price, $product_type, $height,$width,$length) {
+      // Create query
+      $query = "INSERT INTO $this->table(name,sku,price,product_type,height,width,length) VALUE( '$name', '$sku','$price', '$product_type','$height' ,'$width' ,'$length')";
+
+      // Prepare statement
+      $stmt = $this->conn->prepare($query);
+
+      // Execute query
+      try{
+        $stmt->execute();
+        return true;
+      }
+
+      catch(Exception $e){
+            return false;
+      }
+   
+    }  
     
     
     // Delete Product

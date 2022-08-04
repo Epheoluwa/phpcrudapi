@@ -11,4 +11,12 @@ class Insertproduct extends Product{
 
         return $this->createdvd($name, $sku, $price, $product_type, $size);
     }
+    public function allProductsbooks($name, $sku, $price, $product_type, $weight){
+
+        return $this->createbook($name, $sku, $price, $product_type, $weight);
+    }
+    public function allProductsfurniture($name, $sku, $price, $product_type, $height,$width,$length){
+
+        return $this->createfurniture($name, $sku, $price, $product_type, $height,$width,$length);
+    }
 }
