@@ -1,7 +1,7 @@
 <?php
 // Headers
 header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
+header('Content-Type: application/json ');
 header('Access-Control-Allow-Methods: DELETE');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
@@ -16,6 +16,7 @@ $db = $database->connect();
 $post = new Deleteproduct($db);
 
 $value =json_decode(file_get_contents("php://input"));
+
 $id = $value->id;
 
 $result = $post->delete($id);
