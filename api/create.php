@@ -38,8 +38,8 @@ include_once '../model/Insertproduct.php';
 
     // Create post ternary operator used to check product difference
   $result =  (!empty($size)) ? $result = $post->allProducts($name, $sku, $price, $product_type, $size) : 
-                              ((!empty($weight)) ? $result = $post->allProductsbooks($name, $sku, $price, $product_type, $weight)  : 
-                              $result = $post->allProductsfurniture($name, $sku, $price, $product_type, $height,$width,$length));
+                ((!empty($weight)) ? $result = $post->allProductsbooks($name, $sku, $price, $product_type, $weight)  : 
+                $result = $post->allProductsfurniture($name, $sku, $price, $product_type, $height,$width,$length));
   echo $result ;
     if($result) {
         echo json_encode(
