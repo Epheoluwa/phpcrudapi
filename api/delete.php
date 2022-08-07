@@ -25,6 +25,7 @@ if ($result) {
         array('message' => 'Product Deleted')
         );
 }else {
+    header("X-PHP-Response-Code: 404", true, 404);
     echo json_encode(
     array('message' => 'Product Not Deleted')
     );

@@ -46,7 +46,7 @@ include_once '../model/Insertproduct.php';
         array('status' => true)
         );
     }else {
-        
+      header("X-PHP-Response-Code: 401", true, 401);
         echo json_encode(
         array('status' => false)
         );
