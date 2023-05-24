@@ -11,7 +11,7 @@ class Insertproduct extends Product{
 
         return $this->createDVD($name, $sku, $price, $product_type, $size);
     }
-    public function createBookProduct($name, $sku, $product_type,$price, $weight){
+    public function createBookProduct($name, $sku, $price, $product_type, $weight){
 
         return $this->createBook($name, $sku, $price, $product_type,$weight);
     }

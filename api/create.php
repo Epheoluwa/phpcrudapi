@@ -19,30 +19,30 @@ $post = new Insertproduct($db);
 $data = json_decode(file_get_contents("php://input"));
 
 // Check if the required properties are present
-if (
-    isset($data->name) &&
-    isset($data->sku) &&
-    isset($data->price) &&
-    isset($data->prod_type)
-) {
+
+
+
     $name = $data->name;
     $sku = $data->sku;
     $price = $data->price;
-    $product_type = $data->prod_type;
+    $product_type = $data->productType;
+
+
 
     // Create post ternary operator used to check product difference
     $result = (!empty($data->size)) ? $post->createProduct($name, $sku, $price, $product_type, $data->size) : 
               ((!empty($data->weight)) ? $post->createBookProduct($name, $sku, $price, $product_type, $data->weight) :
               $post->createFurnitureProduct($name, $sku, $price, $product_type, $data->height, $data->width, $data->length));
 
+echo $result;
+exit;
     if ($result) {
         echo json_encode(array('status' => true));
+
     } else {
-        http_response_code(401);
+        
         echo json_encode(array('status' => false));
+        // http_response_code(401);
     }
-} else {
-    http_response_code(400);
-    echo json_encode(array('error' => 'Invalid input data'));
-}
+
 ?>

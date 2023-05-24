@@ -50,7 +50,7 @@ abstract class Product extends Database
     public function createDVD($name, $sku, $price, $product_type, $size)
     {
         $query = "INSERT INTO $this->table (name, sku, price, product_type, size) 
-                  VALUES (:name, :sku, :price, ':product_type', :size)";
+                  VALUES (:name, :sku, :price, :product_type, :size)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $name);
@@ -73,7 +73,7 @@ abstract class Product extends Database
     public function createBook($name, $sku, $price, $product_type, $weight)
     {
         $query = "INSERT INTO $this->table (name, sku, price, product_type, weight) 
-                  VALUES (:name, :sku, :price, ':product_type', :weight)";
+                  VALUES (:name, :sku, :price, :product_type, :weight)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $name);
@@ -89,14 +89,14 @@ abstract class Product extends Database
       }
 
       catch(Exception $e){
-            return false;
+            return $e;
       }
     }
 
     public function createFurniture($name, $sku, $price,$product_type, $height, $width, $length)
     {
         $query = "INSERT INTO $this->table (name, sku, price, product_type, height, width, length) 
-                  VALUES (:name, :sku, :price, ':product_type', :height, :width, :length)";
+                  VALUES (:name, :sku, :price, :product_type, :height, :width, :length)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $name);
