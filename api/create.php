@@ -34,8 +34,7 @@ $data = json_decode(file_get_contents("php://input"));
               ((!empty($data->weight)) ? $post->createBookProduct($name, $sku, $price, $product_type, $data->weight) :
               $post->createFurnitureProduct($name, $sku, $price, $product_type, $data->height, $data->width, $data->length));
 
-echo $result;
-exit;
+
     if ($result) {
         echo json_encode(array('status' => true));
 
