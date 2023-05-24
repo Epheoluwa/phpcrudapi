@@ -2,8 +2,8 @@
   // Headers
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
-  header('Access-Control-Allow-Method: GET');
- header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
+  header('Access-Control-Allow-Methods: GET');
+  header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
   include_once '../config/Database.php';
   include_once '../model/Fetchproduct.php';
@@ -12,9 +12,10 @@
   $database = new Database();
   $db = $database->connect();
 
-  // Instantiate blog post object
+  // Instantiate product fetch class
   $post = new Fetchproduct($db);
   
-  // Blog post query
+  // product post
   $result = $post->allProducts();
-    echo $result;
+  echo $result;
+?>
