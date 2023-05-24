@@ -1,147 +1,137 @@
 <?php
+
 include_once '../config/Database.php';
-abstract class Product extends Database {
-    // DB stuff
+abstract class Product extends Database
+{
     private $table = 'product';
 
-     // Post Properties
-     public $id;
-     public $category_id;
-     public $category_name;
-     public $title;
-     public $body;
-     public $author;
-     public $created_at;
+    public function read()
+    {
+        $query = "SELECT * FROM $this->table";
 
-    // // Get Products
-    public function read($name) {
-        // Create query
-        $query = 'SELECT '.$name.' FROM '.$this->table.'';
-        
-        // Prepare statement
         $stmt = $this->conn->prepare($query);
-  
-        // Execute query
         $stmt->execute();
-        $result = $stmt;
+        $count = $stmt->rowCount();
+       
 
-        // Get row count
-        $num = $result->rowCount();
-        // Check if any product
-        if($num > 0){
-          // Post array
-          $prod_arr = array();
-          while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            extract($row);
-
-            $prod_item = array(
-              'id' => $id,
-              'name' => $name,
-              'sku' => $sku,
-              'price' => $price,
-              'product-type' => $product_type,
-              'size' => $size,
-              'weight' => $weight,
-              'height' => $height,
-              'width' => $width,
-              'length' => $length
+        if($count > 0)
+        {
+          $products = array();
+          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $product = array(
+                'id' => $row['id'],
+                'name' => $row['name'],
+                'sku' => $row['sku'],
+                'price' => $row['price'],
+                'product_type' => $row['product_type']
             );
 
-            // Push to "data"
-            array_push($prod_arr, $prod_item);
-          }
+            $product['size'] = ($row['product_type'] === 'dvd') ? $row['size'] : null;
+            $product['weight'] = ($row['product_type'] === 'book') ? $row['weight'] : null;
+            $product['height'] = ($row['product_type'] === 'furniture') ? $row['height'] : null;
+            $product['width'] = ($row['product_type'] === 'furniture') ? $row['width'] : null;
+            $product['length'] = ($row['product_type'] === 'furniture') ? $row['length'] : null;
+            
 
-          // Turn to JSON & output
-          $product = json_encode($prod_arr);
-        }else{
-          // No Posts
-          $product = json_encode(
-            array('message' => 'No Posts Found')
-          );
+            $products[] = $product;
         }
-  
+
+        return json_encode($products);
+      }else{
+         // Return this if not product
+        $product = json_encode(
+          ['message' => 'No Product Found']
+        );
         return $product;
-
-      
-    } 
-
-    public function createdvd($name, $sku, $price, $product_type, $size) {
-      // Create query
-      $query = "INSERT INTO $this->table(name,sku,price,product_type,size) VALUE( '$name', '$sku','$price', '$product_type','$size')";
-
-      // Prepare statement
-      $stmt = $this->conn->prepare($query);
-
-      // Execute query
-      try{
-        $stmt->execute();
-        return true;
       }
-
-      catch(Exception $e){
-            return false;
-      }
-   
-   
-    }  
-    public function createbook($name, $sku, $price, $product_type, $weight) {
-      // Create query
-      $query = "INSERT INTO $this->table(name,sku,price,product_type,weight) VALUE( '$name', '$sku','$price', '$product_type','$weight')";
-
-      // Prepare statement
-      $stmt = $this->conn->prepare($query);
-
-      // Execute query
-      try{
-        $stmt->execute();
-        return true;
-      }
-
-      catch(Exception $e){
-            return false;
-      }
-       
-    }  
-    public function createfurniture($name, $sku, $price, $product_type, $height,$width,$length) {
-      // Create query
-      $query = "INSERT INTO $this->table(name,sku,price,product_type,height,width,length) VALUE( '$name', '$sku','$price', '$product_type','$height' ,'$width' ,'$length')";
-
-      // Prepare statement
-      $stmt = $this->conn->prepare($query);
-
-      // Execute query
-      try{
-        $stmt->execute();
-        return true;
-      }
-
-      catch(Exception $e){
-            return false;
-      }
-   
-    }  
     
-    
-    // Delete Product
-    public function delete($id) {
-      // Create query
-      $query = 'DELETE FROM ' . $this->table . ' WHERE id = '.$id.'';
-
-      // Prepare statement
-      $stmt = $this->conn->prepare($query);
-
-      // Execute query
-      if($stmt->execute()) {
-        return true;
-      }
-
-      // Print error if something goes wrong
-      printf("Error: %s.\n", $stmt->error);
-
-      return false;
     }
 
-    // abstract public function allProducts();
+    public function createDVD($name, $sku, $price, $size)
+    {
+        $query = "INSERT INTO $this->table (name, sku, price, product_type, size) 
+                  VALUES (:name, :sku, :price, 'dvd', :size)";
 
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':sku', $sku);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':size', $size);
+
+        //Execute query
+        try{
+          $stmt->execute();
+          return true;
+        }
+  
+        catch(Exception $e){
+              return false;
+        }
+    }
+
+    public function createBook($name, $sku, $price, $weight)
+    {
+        $query = "INSERT INTO $this->table (name, sku, price, product_type, weight) 
+                  VALUES (:name, :sku, :price, 'book', :weight)";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':sku', $sku);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':weight', $weight);
+
+           // Execute query
+      try{
+        $stmt->execute();
+        return true;
+      }
+
+      catch(Exception $e){
+            return false;
+      }
+    }
+
+    public function createFurniture($name, $sku, $price, $height, $width, $length)
+    {
+        $query = "INSERT INTO $this->table (name, sku, price, product_type, height, width, length) 
+                  VALUES (:name, :sku, :price, 'furniture', :height, :width, :length)";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':sku', $sku);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':height', $height);
+        $stmt->bindParam(':width', $width);
+        $stmt->bindParam(':length', $length);
+
+          // Execute query
+      try{
+        $stmt->execute();
+        return true;
+      }
+
+      catch(Exception $e){
+            return false;
+      }
+    }
+
+    public function delete($id)
+    {
+        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
+    }
 }
 ?>
+
+
+
