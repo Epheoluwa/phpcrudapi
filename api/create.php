@@ -33,8 +33,6 @@ include_once '../model/Insertproduct.php';
     $length = $value->length;
     $width = $value->width;
 
-    
-    // isset($size) ? $result = $post->allProducts($name, $sku, $price, $product_type, $size): $result = "other" ;
 
     // Create post ternary operator used to check product difference
   $result =  (!empty($size)) ? $result = $post->allProducts($name, $sku, $price, $product_type, $size) : 

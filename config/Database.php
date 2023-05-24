@@ -1,10 +1,10 @@
 <?php 
 class Database{
     // DB Params
-    private $host = 'localhost:3308';
+    private $host = 'localhost';
     private $db_name = 'scandiwebDb';
     private $username = 'root';
-    private $password = 'Solomon123';
+    private $password = '';
     protected $conn;
 
     // DB Connect

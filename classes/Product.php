@@ -82,15 +82,6 @@ abstract class Product extends Database {
             return false;
       }
    
-      // if($stmt->execute()) {
-      //   return true;
-      // }else{
-
-      //     throw new Exception("Something wentwrong");
-      //      // Print error if something goes wrong
-      //       printf("Error: %s.\n", $stmt->error);
-      //       return false;
-      // }
    
     }  
     public function createbook($name, $sku, $price, $product_type, $weight) {
