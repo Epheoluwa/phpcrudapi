@@ -7,16 +7,16 @@ class Insertproduct extends Product{
         $this->conn = $db;
       }
       
-    public function allProducts($name, $sku, $price, $product_type, $size){
+    public function createProduct($name, $sku, $price, $product_type, $size){
 
-        return $this->createdvd($name, $sku, $price, $product_type, $size);
+        return $this->createDVD($name, $sku, $price, $product_type, $size);
     }
-    public function allProductsbooks($name, $sku, $price, $product_type, $weight){
+    public function createBookProduct($name, $sku, $product_type,$price, $weight){
 
-        return $this->createbook($name, $sku, $price, $product_type, $weight);
+        return $this->createBook($name, $sku, $price, $product_type,$weight);
     }
-    public function allProductsfurniture($name, $sku, $price, $product_type, $height,$width,$length){
+    public function createFurnitureProduct($name, $sku, $price, $product_type, $height,$width,$length){
 
-        return $this->createfurniture($name, $sku, $price, $product_type, $height,$width,$length);
+        return $this->createFurniture($name, $sku, $price,$product_type, $height,$width,$length);
     }
 }

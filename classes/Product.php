@@ -47,15 +47,16 @@ abstract class Product extends Database
     
     }
 
-    public function createDVD($name, $sku, $price, $size)
+    public function createDVD($name, $sku, $price, $product_type, $size)
     {
         $query = "INSERT INTO $this->table (name, sku, price, product_type, size) 
-                  VALUES (:name, :sku, :price, 'dvd', :size)";
+                  VALUES (:name, :sku, :price, ':product_type', :size)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':sku', $sku);
         $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':product_type', $product_type);
         $stmt->bindParam(':size', $size);
 
         //Execute query
@@ -69,15 +70,16 @@ abstract class Product extends Database
         }
     }
 
-    public function createBook($name, $sku, $price, $weight)
+    public function createBook($name, $sku, $price, $product_type, $weight)
     {
         $query = "INSERT INTO $this->table (name, sku, price, product_type, weight) 
-                  VALUES (:name, :sku, :price, 'book', :weight)";
+                  VALUES (:name, :sku, :price, ':product_type', :weight)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':sku', $sku);
         $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':product_type', $product_type);
         $stmt->bindParam(':weight', $weight);
 
            // Execute query
@@ -91,15 +93,16 @@ abstract class Product extends Database
       }
     }
 
-    public function createFurniture($name, $sku, $price, $height, $width, $length)
+    public function createFurniture($name, $sku, $price,$product_type, $height, $width, $length)
     {
         $query = "INSERT INTO $this->table (name, sku, price, product_type, height, width, length) 
-                  VALUES (:name, :sku, :price, 'furniture', :height, :width, :length)";
+                  VALUES (:name, :sku, :price, ':product_type', :height, :width, :length)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':sku', $sku);
         $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':product_type', $product_type);
         $stmt->bindParam(':height', $height);
         $stmt->bindParam(':width', $width);
         $stmt->bindParam(':length', $length);

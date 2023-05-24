@@ -8,46 +8,41 @@ header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,
 include_once '../config/Database.php';
 include_once '../model/Insertproduct.php';
 
-  // Instantiate DB & connect
-  $database = new Database();
-  $db = $database->connect();
+// Instantiate DB & connect
+$database = new Database();
+$db = $database->connect();
 
-  // Instantiate product  object
-  $post = new Insertproduct($db);
+// Instantiate product object
+$post = new Insertproduct($db);
 
-    // var_dump($_POST);
-    // exit;
-    // $value =file_get_contents("php://input");
-    // echo($value);
-    // exit;
-    $value =json_decode(file_get_contents("php://input"));
-  
-    // Get raw posted data
-    $name = $value->name;
-    $sku = $value->sku;
-    $price = $value->price;
-    $product_type = $value->prod_type;
-    $size = $value->size;
-    $weight = $value->weight;
-    $height = $value->height;
-    $length = $value->length;
-    $width = $value->width;
+// Get raw posted data
+$data = json_decode(file_get_contents("php://input"));
 
+// Check if the required properties are present
+if (
+    isset($data->name) &&
+    isset($data->sku) &&
+    isset($data->price) &&
+    isset($data->prod_type)
+) {
+    $name = $data->name;
+    $sku = $data->sku;
+    $price = $data->price;
+    $product_type = $data->prod_type;
 
     // Create post ternary operator used to check product difference
-  $result =  (!empty($size)) ? $result = $post->allProducts($name, $sku, $price, $product_type, $size) : 
-                ((!empty($weight)) ? $result = $post->allProductsbooks($name, $sku, $price, $product_type, $weight)  : 
-                $result = $post->allProductsfurniture($name, $sku, $price, $product_type, $height,$width,$length));
-  echo $result ;
-    if($result) {
-        echo json_encode(
-        array('status' => true)
-        );
-    }else {
-      header("X-PHP-Response-Code: 401", true, 401);
-        echo json_encode(
-        array('status' => false)
-        );
+    $result = (!empty($data->size)) ? $post->createProduct($name, $sku, $price, $product_type, $data->size) : 
+              ((!empty($data->weight)) ? $post->createBookProduct($name, $sku, $price, $product_type, $data->weight) :
+              $post->createFurnitureProduct($name, $sku, $price, $product_type, $data->height, $data->width, $data->length));
 
-        // http_response_code(401);
+    if ($result) {
+        echo json_encode(array('status' => true));
+    } else {
+        http_response_code(401);
+        echo json_encode(array('status' => false));
     }
+} else {
+    http_response_code(400);
+    echo json_encode(array('error' => 'Invalid input data'));
+}
+?>
