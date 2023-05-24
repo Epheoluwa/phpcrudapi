@@ -1,24 +1,34 @@
 <?php 
-class Database{
-    // DB Params
-    private $host = 'localhost';
-    private $db_name = 'scandiwebDb';
-    private $username = 'root';
-    private $password = '';
+class Database
+{
     protected $conn;
 
-    // DB Connect
-    public function connect() {
-      $this->conn = null;
+    public function connect()
+    {
+        $config = require 'configuration.php';
+        $dbConfig = $config['database'];
 
-      try { 
-        $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
-        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      } catch(PDOException $e) {
-        echo 'Connection Error: ' . $e->getMessage();
-      }
+        try {
+            $this->conn = new PDO(
+                'mysql:host=' . $dbConfig['host'] . ';dbname=' . $dbConfig['db_name'],
+                $dbConfig['username'],
+                $dbConfig['password']
+            );
 
-      return $this->conn;
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            throw new Exception('Connection Error: ' . $e->getMessage());
+        }
+
+        return $this->conn;
     }
 }
+
+
+
+
+
+
+
+
 ?>
