@@ -35,13 +35,16 @@ $data = json_decode(file_get_contents("php://input"));
               $post->createFurnitureProduct($name, $sku, $price, $product_type, $data->height, $data->width, $data->length));
 
 
-    if ($result) {
-        echo json_encode(array('status' => true));
 
-    } else {
+              echo $result;
+              
+    // if ($result) {
+    //     echo json_encode(array('status' => true));
+
+    // } else {
         
-        echo json_encode(array('status' => false));
-        // http_response_code(401);
-    }
+    //     echo json_encode(array('status' => false));
+    //     // http_response_code(401);
+    // }
 
 ?>

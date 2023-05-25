@@ -62,11 +62,11 @@ abstract class Product extends Database
         //Execute query
         try{
           $stmt->execute();
-          return true;
+          return json_encode(array('status' => true));
         }
   
         catch(Exception $e){
-              return false;
+              return json_encode(array('status' => false, 'error' => $e->getMessage()));
         }
     }
 
@@ -85,11 +85,11 @@ abstract class Product extends Database
            // Execute query
       try{
         $stmt->execute();
-        return true;
+        return json_encode(array('status' => true));
       }
 
       catch(Exception $e){
-            return $e;
+            return json_encode(array('status' => false, 'error' => $e->getMessage()));
       }
     }
 
@@ -108,14 +108,14 @@ abstract class Product extends Database
         $stmt->bindParam(':length', $length);
 
           // Execute query
-      try{
-        $stmt->execute();
-        return true;
-      }
-
-      catch(Exception $e){
-            return false;
-      }
+          try{
+            $stmt->execute();
+            return json_encode(array('status' => true));
+          }
+    
+          catch(Exception $e){
+                return json_encode(array('status' => false, 'error' => $e->getMessage()));
+          }
     }
 
     public function delete($id)
