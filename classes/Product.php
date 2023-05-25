@@ -40,7 +40,7 @@ abstract class Product extends Database
       }else{
          // Return this if not product
         $product = json_encode(
-          ['message' => 'No Product Found']
+          []
         );
         return $product;
       }
