@@ -124,14 +124,16 @@ abstract class Product extends Database
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        printf("Error: %s.\n", $stmt->error);
-
-        return false;
+      
+           // Execute query
+           try{
+            $stmt->execute();
+            return json_encode(array('status' => true));
+          }
+    
+          catch(Exception $e){
+                return json_encode(array('status' => false, 'error' => $e->getMessage()));
+          }
     }
 }
 ?>

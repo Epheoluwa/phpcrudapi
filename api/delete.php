@@ -17,16 +17,11 @@ $post = new Deleteproduct($db);
 
 $value =json_decode(file_get_contents("php://input"));
 
-$id = $value->id;
+$Itemid = $value->id;
 
-$result = $post->delete($id);
-if ($result) {
-    echo json_encode(
-        array('message' => 'Product Deleted')
-        );
-}else {
-    header("X-PHP-Response-Code: 404", true, 404);
-    echo json_encode(
-    array('message' => 'Product Not Deleted')
-    );
+foreach($Itemid as $id)
+{
+    $result = $post->delete($id);
 }
+
+echo $result;
