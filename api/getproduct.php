@@ -4,18 +4,14 @@
   header('Content-Type: application/json');
   header('Access-Control-Allow-Methods: GET');
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
+  require_once('../vendor/autoload.php');
 
-  include_once '../config/Database.php';
-  include_once '../model/Fetchproduct.php';
-
-  // Instantiate DB & connect
-  $database = new Database();
-  $db = $database->connect();
-
-  // Instantiate product fetch class
-  $post = new Fetchproduct($db);
-  
-  // product post
-  $result = $post->allProducts();
+  use Classes\Product;
+try {
+  $result = Product::fetchallproducts();
   echo $result;
+} catch (\Throwable $e) {
+  echo json_encode(array('status' => false, 'message' => $e->getMessage()));
+}
+ 
 ?>

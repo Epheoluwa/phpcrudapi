@@ -5,23 +5,16 @@ header('Content-Type: application/json ');
 header('Access-Control-Allow-Methods: DELETE');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
 
-include_once '../config/Database.php';
-include_once '../model/Deleteproduct.php';
+require_once('../vendor/autoload.php');
 
-// Instantiate DB & connect
-$database = new Database();
-$db = $database->connect();
+use Classes\Product;
 
-// Instantiate product object
-$post = new Deleteproduct($db);
-
-$value =json_decode(file_get_contents("php://input"));
-
-$Itemid = $value->id;
-
-foreach($Itemid as $id)
-{
-    $result = $post->delete($id);
+try {
+    $value = json_decode(file_get_contents("php://input"));
+    // print_r($value->id);
+    $result = Product::delete($value->id);
+    echo $result;
+} catch (\Throwable $e) {
+    echo json_encode(array('status' => false, 'message' => $e->getMessage()));
 }
 
-echo $result;

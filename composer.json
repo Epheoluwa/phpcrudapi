@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Model\\": "model/",
+            "Classes\\": "classes/",
+            "Config\\": "config/",
+            "App\\": "api/"
+        }
+    }
+}
